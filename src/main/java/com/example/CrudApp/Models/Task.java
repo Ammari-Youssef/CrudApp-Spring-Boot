@@ -28,6 +28,8 @@ public class Task {
     @NotBlank
     @Size(max = 255 , message = "maximum 255")
     private String description;
+    @Column(nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private boolean isDone;
     @Column
     @JsonFormat(pattern = "yyyy-mm-dd")
     @NotNull(message="Date ne peut être null")

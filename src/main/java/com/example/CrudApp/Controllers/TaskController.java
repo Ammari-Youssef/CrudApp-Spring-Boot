@@ -72,8 +72,11 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    private Task getTask(@PathVariable("id") Long id) {
-        return taskService.getTaskById(id);
+    public ModelAndView getTask(@PathVariable("id") Long id, Model m) {
+        Task t = taskService.getTaskById(id);
+        m.addAttribute("task",t);
+
+        return new ModelAndView("task-details");
     }
 
     @PostMapping("/tasks/delete/{id}")
@@ -90,6 +93,15 @@ public class TaskController {
             return errorMav;
         }
     }
+
+    @PostMapping("/tasks/toggle/{id}")
+    public ModelAndView toggleTaskStatus(@PathVariable Long id) {
+        Task task = taskService.getTaskById(id);
+        task.setDone(!task.isDone()); // Toggle isDone
+        taskService.updateTask(id , task);
+        return new ModelAndView("task"); // Redirect back to the task list
+    }
+
 
 
 

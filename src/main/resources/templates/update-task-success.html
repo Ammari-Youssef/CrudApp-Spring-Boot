@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <title>Update Success</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <div th:replace="fragments/bootstrap-fragment"></div>
 </head>
 <body>
-<h1> Update Succeeded</h1>
+<div th:replace="fragments/navbar"></div>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Update Succeeded</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text" th:text="'Task: ' + ${task.description}"></p>
+        <p class="card-text" th:text="'Creation Date: ' + ${task.creationDate}"></p>
+        <p class="card-text" th:text="'Due Date: ' + ${task.dueDate}"></p>
 
-<p th:text="'Task :' + ${task.description}"></p>
-<p th:text="'Creation Date :' + ${task.creationDate}"></p>
-<p th:text="'Due Date :' + ${task.dueDate}"></p>
+        <a th:href="@{/index}" class="btn btn-primary">Back to Task List</a>
+    </div>
+</div>
 
-
-<a th:href="@{/index}" class="btn btn-primary">Back to Task List</a>
 </body>
 </html>

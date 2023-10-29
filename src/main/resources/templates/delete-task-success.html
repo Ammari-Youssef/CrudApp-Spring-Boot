@@ -5,9 +5,11 @@
     <title>Deletion Success</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <div th:replace="fragments/bootstrap-fragment"></div>
 </head>
 <body>
-<h1>Task has been deleted successfully</h1>
+<div th:replace="fragments/navbar"></div>
+<h1  class="alert alert-success" role="alert">Task has been deleted successfully</h1>
 <p th:text="'Task :' + ${task.description}"></p>
 <p th:text="'Due date :' + ${task.dueDate}"></p>
 

@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <title>Create Task</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <div th:replace="fragments/bootstrap-fragment"></div>
 </head>
 <body>
+<div th:replace="fragments/navbar"></div>
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Create Task</h5>
+  </div>
+  <div class="card-body">
+    <form th:action="@{/addTask}" method="post" th:object="${task}" enctype="application/x-www-form-urlencoded">
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" name="description" th:field="*{description}">
+        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></p>
+      </div>
 
-<h1>Creation Task Form </h1>
-<form th:action="addTask" method="post" th:object="${task}">
-  <label for="description">Description:</label>
-  <input type="text" id="description" name="description" th:field="*{description}">
-  <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+      <div class="form-group">
+        <label for="creationDate">Creation Date:</label>
+        <input type="date" class="form-control" id="creationDate" name="creationDate" th:field="*{creationDate}">
+      </div>
 
-  <label for="dueDate">Creation Date:</label>
-  <input type="date" id="creationDate" name="creationDate" th:field="*{creationDate}">
+      <div class="form-group">
+        <label for="dueDate">Due Date:</label>
+        <input type="date" class="form-control" id="dueDate" name="dueDate" th:field="*{dueDate}">
+        <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" class="text-danger"></p>
+      </div>
 
-  <label for="dueDate">Due Date:</label>
-  <input type="date" id="dueDate" name="dueDate" th:field="*{dueDate}">
-  <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"></p>
+      <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
 
-  <button type="submit">Add Task</button>
-</form>
+    <a th:href="@{/index}" class="btn btn-secondary">Back to Task List</a>
+  </div>
+</div>
 
-<a th:href="@{/index}" class="btn btn-primary">Head Back</a>
 </body>
 </html>

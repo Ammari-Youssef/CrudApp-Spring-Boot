@@ -3,44 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <title>Task Manager Spring Boot</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!--<link rel="stylesheet" th:href="@{/css/style.css}">-->
+    <div th:replace="fragments/bootstrap-fragment"></div>
 </head>
 <body>
-<h1 th:text="${message}"></h1>
-<h1>Task Manager App</h1>
+
+<div th:replace="fragments/navbar"></div>
+<div class="container">
+    <h1 class="display-4 text-center" th:text="${message}"></h1>
+    <h1 class="display-3 text-center" >Task Manager App</h1>
+
+    <!-- Task List -->
+    <h2 class="mt-5">Tasks list</h2>
+
+    <table class="table table-bordered" th:if="${not #lists.isEmpty(tasks)}">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Description</th>
+            <th scope="col">Creation date</th>
+            <th scope="col">Due date</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task, iterStat : ${tasks}">
+            <td th:text="${iterStat.count}">Index</td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.creationDate}"></td>
+            <td th:text="${task.dueDate}"></td>
+            <td>
+                <div class="d-flex px-1">
+                    <button class="btn btn-sm toggle-button"
+                            th:class="${task.isDone} ? 'btn-success' : 'btn-secondary'"
+                            title="Toggle Task" data-task-id="${task.id}"
+                            th:onclick="'toggleTaskStatus(' + ${task.id} + ')';">
+                        <i th:class="${task.isDone} ? 'fas fa-thumbs-up' : 'fas fa-thumbs-down'"></i>
+                    </button>
+                    <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-info btn-sm" title="View" ><i class="fas fa-eye"></i></a>
+                    <a  th:href="@{/tasks/edit/{id}(id=${task.id})}" class="btn btn-primary btn-sm" title="Edit" ><i class="fas fa-edit"></i></a>
+                    <form  method="post" th:action="@{/tasks/delete/{id}(id=${task.id})}" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm delete-objective" title="Delete" th:data-task-id="${task.id}"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <p class="mt-3" th:if="${#lists.isEmpty(tasks)}">No tasks available.</p>
+
+    <!-- Add Task Button to Open the Task Form Modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskFormModal">
+        Add Task
+    </button>
+</div>
+
+<!-- Task Form Modal -->
+<div class="modal fade" id="taskFormModal" tabindex="-1" role="dialog" aria-labelledby="taskFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskFormModalLabel">Add Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Include your task form HTML here -->
+                <!-- Thymeleaf form code for adding a task -->
+                <form th:action="@{/addTask}" method="post" th:object="${task}" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" id="taskDetailsId" value="">
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" class="form-control" id="description" name="description" th:field="*{description}">
+                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="creationDate">Creation Date:</label>
+                        <input type="date" class="form-control" id="creationDate" name="creationDate" th:field="*{creationDate}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dueDate">Due Date:</label>
+                        <input type="date" class="form-control" id="dueDate" name="dueDate" th:field="*{dueDate}">
+                        <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" class="text-danger"></p>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Form modal -->
+<div class="modal fade" id="editTaskFormModal" tabindex="-1" role="dialog" aria-labelledby="editTaskFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTaskFormModalLabel">Add Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Include your task form HTML here -->
+                <!-- Thymeleaf form code for adding a task -->
+                <form th:action="@{/addTask}" method="post" th:object="${task}" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" class="form-control" id="e_description" name="description" th:field="*{description}">
+                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="creationDate">Creation Date:</label>
+                        <input type="date" class="form-control" id="e_creationDate" name="creationDate" th:field="*{creationDate}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dueDate">Due Date:</label>
+                        <input type="date" class="form-control" id="e_dueDate" name="dueDate" th:field="*{dueDate}">
+                        <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" class="text-danger"></p>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Update Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task Details Modal -->
+<div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-labelledby="taskDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskDetailsModalLabel">Task Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display task details here -->
+                <p th:text="'Task: ' + ${task.description}"></p>
+                <p th:text="'Creation Date: ' + ${task.creationDate}"></p>
+                <p th:text="'Due Date: ' + ${task.dueDate}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-<!-- Task List -->
-<h2>Tasks list</h2>
-<table border="1" th:if="${not #lists.isEmpty(tasks)}">
-    <thead>
-    <tr>
-        <th>N°</th>
-        <th>Description</th>
-        <th>Creation date</th>
-        <th>Due date</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="task, iterStat : ${tasks}">
-        <td th:text="${iterStat.count}">Index</td>
-        <td th:text="${task.description}"></td>
-        <td th:text="${task.creationDate}"></td>
-        <td th:text="${task.dueDate}"></td>
-        <td>
-            <a th:href="@{/tasks/edit/{id}(id=${task.id})}">
-                <button>Update</button>
-            </a>
-            <form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="POST">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<p th:if="${#lists.isEmpty(tasks)}">No tasks available.</p>
-
-<a th:href="@{/addTask}" class="btn btn-primary">Add Task</a>
 </body>
 </html>
+<script th:inline="javascript">
+    function toggleTaskStatus(taskId) {
+        $.post('/tasks/toggle/' + taskId, function () {
+            // Reload the page
+            location.reload();
+        });
+    }
+</script>
+
+<script>
+    // Listen for when the taskDetailsModal is about to be shown
+    $('#taskDetailsModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var taskId = button.data('id'); // Extract task ID from data-id attribute
+
+        // Set the hidden input field's value to the task ID
+        $('#taskDetailsId').val(taskId);
+    });
+
+
+</script>

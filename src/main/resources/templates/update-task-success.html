@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Success</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1> Update Succeeded</h1>
+
+<p th:text="'Task :' + ${task.description}"></p>
+<p th:text="'Creation Date :' + ${task.creationDate}"></p>
+<p th:text="'Due Date :' + ${task.dueDate}"></p>
+
+
+<a th:href="@{/index}" class="btn btn-primary">Back to Task List</a>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deletion Success</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Task has been deleted successfully</h1>
+<p th:text="'Task :' + ${task.description}"></p>
+<p th:text="'Due date :' + ${task.dueDate}"></p>
+
+
+<a th:href="@{/index}" class="btn btn-primary">Back to Task List</a>
+</body>
+</html>

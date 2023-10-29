@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager Spring Boot</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1 th:text="${message}"></h1>
+<h1>Task Manager App</h1>
+
+
+<!-- Task List -->
+<h2>Tasks list</h2>
+<table border="1" th:if="${not #lists.isEmpty(tasks)}">
+    <thead>
+    <tr>
+        <th>N°</th>
+        <th>Description</th>
+        <th>Creation date</th>
+        <th>Due date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task, iterStat : ${tasks}">
+        <td th:text="${iterStat.count}">Index</td>
+        <td th:text="${task.description}"></td>
+        <td th:text="${task.creationDate}"></td>
+        <td th:text="${task.dueDate}"></td>
+        <td>
+            <a th:href="@{/tasks/edit/{id}(id=${task.id})}">
+                <button>Update</button>
+            </a>
+            <form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p th:if="${#lists.isEmpty(tasks)}">No tasks available.</p>
+
+<a th:href="@{/addTask}" class="btn btn-primary">Add Task</a>
+</body>
+</html>

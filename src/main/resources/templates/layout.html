@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title >Default Page Title</title>
+    <!-- Include Bootstrap or other resources here -->
+  <th:block th:replace="fragments/bootstrap-fragment :: bootstrap"></th:block>
+
+
+</head>
+
+<body>
+<!-- Page content goes here -->
+
+<div th:replace="fragments/navbar"></div> <!-- Include the navigation bar -->
+
+<div th:replace="fragments/content"></div>
+</body>
+
+</html>

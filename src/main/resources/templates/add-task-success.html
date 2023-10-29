@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Addition Success</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Addition Succeeded</h1>
+<p th:text="'Task :' + ${task.description}"></p>
+<p th:text="'Creation date :' + ${task.creationDate}"></p>
+<p th:text="'Due date :' + ${task.dueDate}"></p>
+<a th:href="@{/index}" class="btn btn-primary">Back to Task List</a>
+</body>
+</html>

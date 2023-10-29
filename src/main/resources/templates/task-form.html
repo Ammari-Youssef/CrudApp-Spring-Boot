@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Creation Task Form </h1>
+<form th:action="addTask" method="post" th:object="${task}">
+  <label for="description">Description:</label>
+  <input type="text" id="description" name="description" th:field="*{description}">
+  <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+
+  <label for="dueDate">Creation Date:</label>
+  <input type="date" id="creationDate" name="creationDate" th:field="*{creationDate}">
+
+  <label for="dueDate">Due Date:</label>
+  <input type="date" id="dueDate" name="dueDate" th:field="*{dueDate}">
+  <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"></p>
+
+  <button type="submit">Add Task</button>
+</form>
+
+<a th:href="@{/index}" class="btn btn-primary">Head Back</a>
+</body>
+</html>

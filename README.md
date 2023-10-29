@@ -4,7 +4,7 @@ A web application for managing tasks with Spring Boot, Thymeleaf, and Bootstrap,
 
 ## Screenshots
 
-![Task Manager App](src/resources/static/images/index.jpeg)
+![Task Manager App](./index.jpeg)
 
 ## Lessons Learned
 
